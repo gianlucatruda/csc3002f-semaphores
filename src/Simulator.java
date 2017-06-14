@@ -1,11 +1,17 @@
-import java.io.*;
 
+import java.io.*;
+import java.util.ArrayList;
+
+/**
+ * Created by gianlucatruda on 14/06/2017.
+ */
 public class Simulator {
     public static void main(String[] args) throws FileNotFoundException {
 
         String filename = "defaultInstructions.txt";
         int M; // The number of people
         int N; // The number of branches
+        Person[] people;
 
         if(args.length == 1) {
             filename = args[0].trim();
@@ -24,9 +30,12 @@ public class Simulator {
             line = r.readLine().trim();
             N = Integer.valueOf(line);
 
+            people = new Person[M];
             for (int i = 0; i < M; i++) {
                 line = r.readLine().trim();
                 int pID = i;
+                //TODO reassess this
+                ArrayList<Voyage> trips = new ArrayList<>();
                 String sep = " \\(";
                 line = line.substring(String.valueOf(pID).length()+2);
                 String[] dataLines = line.split(sep);
@@ -35,10 +44,20 @@ public class Simulator {
                     int branch = Integer.valueOf(pair.split(",")[0].trim());
                     int duration = Integer.valueOf(pair.substring(pair.indexOf(",")+2,pair.indexOf(")")));
                     //System.out.println(i+" b"+branch+"d"+duration);
+                    trips.add(new Voyage(branch, duration));
                 }
+                people[i] = new Person(pID, trips);
             }
 
             System.out.println("Successfully imported data!\n");
+
+            // Instantiate a taxi
+
+            // Start simulation
+
+            // Stop simulation
+
+            // Print trace
 
         } catch (FileNotFoundException expFile) {
             System.out.println("Could not find data file. Please ensure name and directory structure is correct.");
