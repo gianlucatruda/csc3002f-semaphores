@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.concurrent.Semaphore;
 
 /**
  * Created by gianlucatruda on 14/06/2017.
@@ -25,16 +24,16 @@ public class Person extends Thread {
         for(Voyage v:voyages) {
             boolean success = false;
             success = taxi.hail(location);
-            System.out.println("Branch "+location+": "+ID+" hails");
+            System.out.println("Branch "+location+": person "+ID+" hail");
             while(location != taxi.getLocation()) {
                 holdUp(0.5);
             }
             success = taxi.request(v.getBranch(), this);
-            System.out.println("Branch "+location+": "+ID+" gets on");
+            System.out.println("Branch "+location+": person "+ID+" request "+v.getBranch());
             while(taxi.getLocation() != v.getBranch()) {
                 holdUp(0.5);
             }
-            taxi.depart(this);
+            taxi.unboard(this);
                 holdUp(v.getDuration());
         }
 
