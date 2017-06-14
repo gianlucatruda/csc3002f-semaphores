@@ -62,6 +62,14 @@ public class Simulator {
             }
             taxi.start();
 
+
+
+
+
+
+
+
+
         } catch (FileNotFoundException expFile) {
             System.out.println("Could not find data file. Please ensure name and directory structure is correct.");
             expFile.printStackTrace();

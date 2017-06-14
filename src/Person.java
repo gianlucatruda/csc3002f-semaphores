@@ -19,51 +19,16 @@ public class Person extends Thread {
         this.location = 0;
     }
 
+    @Override
+    public void run() {
+
+    }
+
     public int getID() {
         return ID;
     }
 
-    public ArrayList<Voyage> getVoyages() {
-        return voyages;
-    }
-
     public int getLocation() {
         return location;
-    }
-
-    @Override
-    public void run() {
-        //System.out.println("Person "+ID+" started.");
-
-        for(Voyage v:voyages) {
-            Semaphore hailer = taxi.hail(location);
-            hailer.acquireUninterruptibly();
-            System.out.println("Branch "+location+": person "+ID+" hail");
-            while(taxi.getLocation() != location) {
-                try {
-                    sleep(TEMPO/2);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            Semaphore destiner = taxi.goTo(v.getBranch(), hailer);
-            destiner.acquireUninterruptibly();
-            System.out.println("Branch "+location+": person "+ID+" request "+v.getBranch());
-            while(taxi.getLocation() != v.getBranch()) {
-                location = taxi.getLocation();
-                try {
-                    sleep(TEMPO/2);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            location = taxi.getLocation();
-            destiner.release();
-            try {
-                sleep(TEMPO*v.getDuration());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
     }
 }
