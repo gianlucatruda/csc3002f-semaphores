@@ -1,14 +1,19 @@
 
 import java.io.*;
+import java.time.Clock;
 import java.util.ArrayList;
 
 /**
  * Created by gianlucatruda on 14/06/2017.
  */
 public class Simulator {
-    final static int TEMPO = 500;
-    public static void main(String[] args) throws FileNotFoundException {
 
+    final static int TEMPO = 1000; // Set to 17 for final demo
+    final static boolean DEBUG = true; // Turn to true to see more verbose output
+
+
+    public static void main(String[] args) throws FileNotFoundException {
+        SimTimer time = new SimTimer();
         String filename = "defaultInstructions.txt";
         int M; // The number of people
         int N; // The number of branches
@@ -32,7 +37,7 @@ public class Simulator {
             N = Integer.valueOf(line);
 
             // Instantiate a taxi
-            Taxi taxi = new Taxi(M, N);
+            Taxi taxi = new Taxi(M, N, time);
 
             people = new Person[M];
             for (int i = 0; i < M; i++) {
@@ -50,16 +55,18 @@ public class Simulator {
                     //System.out.println(i+" b"+branch+"d"+duration);
                     trips.add(new Voyage(branch, duration));
                 }
-                people[i] = new Person(pID, taxi, trips);
+                people[i] = new Person(pID, taxi, time, trips);
             }
 
             System.out.println("Successfully imported data!\n");
 
 
             // Start simulation
+
             for(Person p:people) {
                 p.start();
             }
+            time.start();
             taxi.start();
 
 

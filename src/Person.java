@@ -1,3 +1,4 @@
+import java.sql.Time;
 import java.util.ArrayList;
 
 /**
@@ -10,12 +11,14 @@ public class Person extends Thread {
     private ArrayList<Voyage> voyages;
     private Taxi taxi;
     private int location;
+    private SimTimer time;
 
-    public Person(int id, Taxi t, ArrayList<Voyage> trips) {
+    public Person(int id, Taxi t, SimTimer timer, ArrayList<Voyage> trips) {
         this.ID = id;
         this.voyages = trips;
         this.taxi = t;
         this.location = 0;
+        this.time = timer;
     }
 
     @Override
@@ -24,19 +27,20 @@ public class Person extends Thread {
         for(Voyage v:voyages) {
             boolean success = false;
             success = taxi.hail(location);
-            System.out.println("Branch "+location+": person "+ID+" hail");
+            System.out.println(time.getTime()+" branch "+location+": person "+ID+" hail");
             while(location != taxi.getLocation()) {
-                holdUp(0.5);
+                holdUp(0.5, false);
             }
             success = taxi.request(v.getBranch(), this);
-            System.out.println("Branch "+location+": person "+ID+" request "+v.getBranch());
+            holdUp(1);
+            System.out.println(time.getTime()+" branch "+location+": person "+ID+" request "+v.getBranch());
             while(taxi.getLocation() != v.getBranch()) {
-                holdUp(0.5);
+                holdUp(0.5, false);
             }
             taxi.unboard(this);
                 holdUp(v.getDuration());
         }
-
+        taxi.notifyComplete();
 
     }
 
@@ -58,6 +62,10 @@ public class Person extends Thread {
     }
 
     private void holdUp(double x) {
+        holdUp(x, true);
+    }
+
+    private void holdUp(double x, boolean b) {
         try {
             sleep((int)(TEMPO*x));
         } catch (InterruptedException e) {
