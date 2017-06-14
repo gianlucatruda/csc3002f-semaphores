@@ -22,6 +22,29 @@ public class Person extends Thread {
     @Override
     public void run() {
 
+        Voyage v = voyages.get(0);
+
+        boolean success = false;
+        success = taxi.hail(location);
+        System.out.println("Branch "+location+": "+ID+" hails");
+        while(location != taxi.getLocation()) {
+            try {
+                sleep(TEMPO/2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        success = taxi.request(v.getBranch(), this);
+        System.out.println("Branch "+location+": "+ID+" gets on");
+        while(taxi.getLocation() != v.getBranch()) {
+            try {
+                sleep(TEMPO/2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        taxi.depart(this);
+
     }
 
     public int getID() {
@@ -30,5 +53,14 @@ public class Person extends Thread {
 
     public int getLocation() {
         return location;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(ID);
+    }
+
+    public void setLocation(int x) {
+        location = x;
     }
 }
