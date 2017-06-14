@@ -34,7 +34,16 @@ public class Person extends Thread {
         System.out.println("Person "+ID+" started.");
 
         for(Voyage v:voyages) {
-            taxi.hail(ID, this.getLocation(), v.getBranch());
+            boolean success = false;
+            try {
+                taxi.hail(this, location);
+                if(taxi.state == Taxi.State.WAITING) {
+                    taxi.goTo(this, location, v.getBranch());
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(ID+" on board");
         }
     }
 }
