@@ -6,6 +6,7 @@ import java.util.ArrayList;
  * Created by gianlucatruda on 14/06/2017.
  */
 public class Simulator {
+    final static int TEMPO = 500;
     public static void main(String[] args) throws FileNotFoundException {
 
         String filename = "defaultInstructions.txt";
@@ -56,10 +57,10 @@ public class Simulator {
 
 
             // Start simulation
-            taxi.setState(Taxi.State.IDLE);
             for(Person p:people) {
                 p.start();
             }
+            taxi.start();
 
         } catch (FileNotFoundException expFile) {
             System.out.println("Could not find data file. Please ensure name and directory structure is correct.");

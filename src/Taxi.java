@@ -1,5 +1,4 @@
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import static java.lang.Thread.sleep;
@@ -7,56 +6,104 @@ import static java.lang.Thread.sleep;
 /**
  * Created by gianlucatruda on 14/06/2017.
  */
-public class Taxi {
+public class Taxi extends Thread {
 
-    private final int TEMPO = 2000;
+    private final int TEMPO = Simulator.TEMPO;
     private int M;
     private int N;
     private int location;
     private Semaphore hailerPhore;
     private Semaphore goToPhore;
-    public enum State { IDLE, WAITING, OUTBOUND, INBOUND };
+    public enum State { IDLE, OUTBOUND, INBOUND };
     public State state;
-    private Deque<Person> passengers;
+    private ArrayList<Integer> pickups;
+    private ArrayList<Integer> dropoffs;
 
     public Taxi(int m, int n) {
         this.M = m;
         this.N = n;
         this.location = 0;
-        passengers = new ArrayDeque<>();
-        hailerPhore = new Semaphore(1);
-        goToPhore = new Semaphore(1);
+        pickups = new ArrayList<>();
+        dropoffs = new ArrayList<>();
+        hailerPhore = new Semaphore(M);
+        goToPhore = new Semaphore(M);
     }
 
-    public void hail(Person p, int start) throws InterruptedException {
-        hailerPhore.acquire();
-        System.out.println("Taxi("+this.state+"): Person "+p.getID()+" hailed me from "+start);
-        while(location < start) {
-            headOut();
+    public void run() {
+        state = State.OUTBOUND;
+        while(true) {
+            System.out.println(location+" >>> pick: "+pickups.toString()+" drop: "+dropoffs.toString());
+
+            if(pickups.size() > 0) {
+                moveToward(pickups);
+            } else if(dropoffs.size() > 0) {
+                moveToward(dropoffs);
+            }
+            try {
+                sleep(TEMPO);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
         }
-        boarding();
     }
 
-    public void goTo(Person p, int start, int dest) throws InterruptedException {
-        goToPhore.acquire();
-        passengers.add(p);
-        hailerPhore.release();
-        System.out.println("Taxi("+this.state+"): Person "+p.getID()+" going to "+dest);
+    public synchronized Semaphore hail(int branch) {
+        if(!pickups.contains(branch)) {
+            pickups.add(branch);
+        }
+        return hailerPhore;
     }
 
-    private void boarding() throws InterruptedException {
-        this.state = State.WAITING;
-        sleep(TEMPO);
+    public synchronized Semaphore goTo(int branch, Semaphore sem) {
+        if(!dropoffs.contains(branch)) {
+            dropoffs.add(branch);
+        }
+        sem.release();
+        return goToPhore;
     }
 
-    private void headOut() throws InterruptedException {
-        this.state = State.OUTBOUND;
-        sleep(TEMPO*2);
-        location++;
+    private synchronized void moveToward(ArrayList<Integer> loci) {
+        if(location == M-1) {
+            state = State.INBOUND;
+        } else if (location == 0) {
+            state = State.OUTBOUND;
+        }
+
+        int b = 0;
+        if(state == State.OUTBOUND) {
+            Collections.sort(loci);
+            b = loci.get(loci.size()-1);
+        } else if(state == State.INBOUND) {
+            Collections.sort(loci);
+            b = loci.get(0);
+        }
+
+        if(location == b) {
+            System.out.println("Branch "+location+": taxi arrive");
+            loci.remove(b);
+            try {
+                sleep(TEMPO);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } else {
+            if(state == State.OUTBOUND) {
+                if(location < b) {
+                    try {
+                        sleep(TEMPO*2);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    location++;
+                }
+            }
+        }
+
+        //TODO fill this out if it works
     }
 
-    public void setState(State s) {
-        this.state = s;
+    public int getLocation() {
+        return location;
     }
-
 }
