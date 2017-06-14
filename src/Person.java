@@ -22,28 +22,22 @@ public class Person extends Thread {
     @Override
     public void run() {
 
-        Voyage v = voyages.get(0);
+        for(Voyage v:voyages) {
+            boolean success = false;
+            success = taxi.hail(location);
+            System.out.println("Branch "+location+": "+ID+" hails");
+            while(location != taxi.getLocation()) {
+                holdUp(0.5);
+            }
+            success = taxi.request(v.getBranch(), this);
+            System.out.println("Branch "+location+": "+ID+" gets on");
+            while(taxi.getLocation() != v.getBranch()) {
+                holdUp(0.5);
+            }
+            taxi.depart(this);
+                holdUp(v.getDuration());
+        }
 
-        boolean success = false;
-        success = taxi.hail(location);
-        System.out.println("Branch "+location+": "+ID+" hails");
-        while(location != taxi.getLocation()) {
-            try {
-                sleep(TEMPO/2);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        success = taxi.request(v.getBranch(), this);
-        System.out.println("Branch "+location+": "+ID+" gets on");
-        while(taxi.getLocation() != v.getBranch()) {
-            try {
-                sleep(TEMPO/2);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        taxi.depart(this);
 
     }
 
@@ -62,5 +56,13 @@ public class Person extends Thread {
 
     public void setLocation(int x) {
         location = x;
+    }
+
+    private void holdUp(double x) {
+        try {
+            sleep((int)(TEMPO*x));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
