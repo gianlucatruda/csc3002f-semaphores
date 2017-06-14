@@ -56,15 +56,10 @@ public class Simulator {
 
 
             // Start simulation
+            taxi.setState(Taxi.State.IDLE);
             for(Person p:people) {
                 p.start();
             }
-
-            taxi.start();
-
-            // Stop simulation
-
-            // Print trace
 
         } catch (FileNotFoundException expFile) {
             System.out.println("Could not find data file. Please ensure name and directory structure is correct.");

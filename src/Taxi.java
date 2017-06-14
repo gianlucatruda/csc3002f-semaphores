@@ -5,13 +5,14 @@ import java.util.concurrent.Semaphore;
 /**
  * Created by gianlucatruda on 14/06/2017.
  */
-public class Taxi extends Thread {
+public class Taxi {
 
     private int M;
     private int N;
     private Semaphore hailerPhore;
     private Semaphore goToPhore;
-    private enum State { IDLE, MOVING, WAITING };
+    public enum State { IDLE, MOVING, WAITING };
+    public State state;
     private Deque<Person> passengers;
 
     public Taxi(int m, int n) {
@@ -20,8 +21,12 @@ public class Taxi extends Thread {
         passengers = new ArrayDeque<>();
     }
 
-    public void run() {
-        System.out.println("The taxi started.");
+    public void hail(int pid, int start, int dest) {
+        System.out.println("Taxi("+this.state+"): Person "+pid+" hailed me from " + start+" to "+dest );
+    }
+
+    public void setState(State s) {
+        this.state = s;
     }
 
 }
