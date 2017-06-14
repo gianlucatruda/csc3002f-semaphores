@@ -30,6 +30,9 @@ public class Simulator {
             line = r.readLine().trim();
             N = Integer.valueOf(line);
 
+            // Instantiate a taxi
+            Taxi taxi = new Taxi(M, N);
+
             people = new Person[M];
             for (int i = 0; i < M; i++) {
                 line = r.readLine().trim();
@@ -46,14 +49,18 @@ public class Simulator {
                     //System.out.println(i+" b"+branch+"d"+duration);
                     trips.add(new Voyage(branch, duration));
                 }
-                people[i] = new Person(pID, trips);
+                people[i] = new Person(pID, taxi, trips);
             }
 
             System.out.println("Successfully imported data!\n");
 
-            // Instantiate a taxi
 
             // Start simulation
+            for(Person p:people) {
+                p.start();
+            }
+
+            taxi.start();
 
             // Stop simulation
 
