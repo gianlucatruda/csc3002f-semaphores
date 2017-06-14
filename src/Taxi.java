@@ -71,6 +71,8 @@ public class Taxi extends Thread {
                 holdUp(1);
             }
         }
+
+        time.setCompleted(true);
     }
 
 	public boolean hail(int branch) {
@@ -124,5 +126,9 @@ public class Taxi extends Thread {
 
     public synchronized void notifyComplete() {
         this.completed++;
+    }
+
+    public int getCompleted() {
+        return completed;
     }
 }

@@ -8,8 +8,8 @@ import java.util.ArrayList;
  */
 public class Simulator {
 
-    final static int TEMPO = 1000; // Set to 17 for final demo
-    final static boolean DEBUG = true; // Turn to true to see more verbose output
+    final static int TEMPO = 17; // Set to 17 for final demo
+    final static boolean DEBUG = false; // Turn to true to see more verbose output
 
 
     public static void main(String[] args) throws FileNotFoundException {
@@ -68,14 +68,6 @@ public class Simulator {
             }
             time.start();
             taxi.start();
-
-
-
-
-
-
-
-
 
         } catch (FileNotFoundException expFile) {
             System.out.println("Could not find data file. Please ensure name and directory structure is correct.");

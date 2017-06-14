@@ -4,10 +4,12 @@
 public class SimTimer extends Thread {
     private int hours;
     private int mins;
+    private boolean completed;
 
     public SimTimer() {
         this.hours = 9;
         this.mins = 0;
+        this.completed = false;
     }
 
     public String getTime() {
@@ -22,13 +24,17 @@ public class SimTimer extends Thread {
 
     public void run() {
         try {
-            while(true){
+            while(!completed){
                 sleep(Simulator.TEMPO);
                 inc();
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 
     private void inc() {
