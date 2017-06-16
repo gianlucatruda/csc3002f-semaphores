@@ -114,11 +114,11 @@ public class Taxi extends Thread {
     private void drive(int incr) {
         System.out.println(time.getTime()+" branch "+location+": taxi depart");
         location+=incr;
-        syncLoci();
         holdUp(2);
+        syncLoci();
     }
 
-    private synchronized void syncLoci() {
+    private synchronized void syncLoci() throws NullPointerException {
         for(Person p:passengers) {
             p.setLocation(this.location);
         }

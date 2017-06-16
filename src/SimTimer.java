@@ -42,6 +42,9 @@ public class SimTimer extends Thread {
         if(mins == 59 ){
             mins = 0;
             hours++;
+            if(hours == 24) {
+                hours = 0;
+            }
         } else mins++;
     }
 }

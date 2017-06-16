@@ -14,7 +14,7 @@ public class Simulator {
     public static void main(String[] args) throws FileNotFoundException {
         int TEMPO = SimTimer.TEMPO;
         SimTimer time = new SimTimer();
-        String filename = "defaultInstructions.txt";
+        String filename = "tests/stress03.txt";
         int M; // The number of people
         int N; // The number of branches
         Person[] people;

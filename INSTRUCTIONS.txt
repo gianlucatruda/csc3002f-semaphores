@@ -1,0 +1,41 @@
+Hi there,
+
+I hope marking is going well. I've tried to make this code as easy for
+you to mark as possible. There is a makefile supplied, but the code is already
+compiled to the bin directory.
+
+I've generated test scripts under the "tests/" directory. In there
+you will also find a Python 3 script that I made for generating
+test scripts.
+
+To test my code, you can simply run any of these lines from the
+home directory:
+
+$ java -cp bin Simulator tests/standard.txt
+$ java -cp bin Simulator tests/stress01.txt
+$ java -cp bin Simulator tests/stress02.txt
+$ java -cp bin Simulator tests/stress03.txt
+
+* standard.txt is the test script provided in the assingment brief.
+
+* stress01 is "One person who works for a long time at each stop so
+the taxi goes into its idle state."
+
+* stress02 is "Many people working for short periods of time, keeping
+the taxi busy."
+
+* stress03 is simply ridiculous and made using my python script to
+really push the code to its limits.
+
+You can use the python script by running:
+
+$ python3 tests/testgen.py
+
+Thank you for taking the time to mark my work.
+
+
+Kindest regards,
+
+Gianluca
+
+TRDGIA001
