@@ -8,17 +8,22 @@ import static java.lang.Thread.sleep;
  */
 public class Taxi extends Thread {
 
-    private final int TEMPO = SimTimer.TEMPO;
-    private SimTimer time;
-    private int M;
-    private int N;
+    @SuppressWarnings("CanBeFinal")
+    private final SimTimer time;
+    @SuppressWarnings("CanBeFinal")
+    private final int M;
+    @SuppressWarnings("CanBeFinal")
+    private final int N;
     private int location;
     private int completed;
-    public enum State { IDLE, OUTBOUND, INBOUND };
-    private State state;
-    private ArrayDeque<Integer> loci;
-    private ArrayList<Person> passengers;
-    private Semaphore sem;
+    public enum State { IDLE, OUTBOUND, INBOUND }
+
+    @SuppressWarnings("CanBeFinal")
+    private final ArrayDeque<Integer> loci;
+    @SuppressWarnings("CanBeFinal")
+    private final ArrayList<Person> passengers;
+    @SuppressWarnings("CanBeFinal")
+    private final Semaphore sem;
 
     public Taxi(int m, int n, SimTimer t) {
         this.M = m;
@@ -32,10 +37,10 @@ public class Taxi extends Thread {
     }
 
     public void run() {
-        state = State.OUTBOUND;
+        State state = State.OUTBOUND;
 
         while(this.completed < M) {
-            if(Simulator.DEBUG) System.out.println(location+"("+state+") *"+passengers.toString()+"* --> "+loci.toString());
+            if(Simulator.DEBUG) System.out.println(location+"("+ state +") *"+passengers.toString()+"* --> "+loci.toString());
             if(loci.size() > 0) {
                 System.out.println(time.getTime()+" branch "+location+": taxi arrive");
                 if(loci.contains(location)) {
@@ -72,7 +77,7 @@ public class Taxi extends Thread {
             }
         }
 
-        time.setCompleted(true);
+        time.setCompleted();
     }
 
 	public boolean hail(int branch) {
@@ -105,7 +110,8 @@ public class Taxi extends Thread {
 
     private void holdUp(int x) {
         try {
-            sleep(TEMPO*x);
+            int TEMPO = SimTimer.TEMPO;
+            sleep(TEMPO *x);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

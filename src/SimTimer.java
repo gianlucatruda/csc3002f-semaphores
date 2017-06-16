@@ -1,7 +1,7 @@
 /**
  * Created by gianlucatruda on 14/06/2017.
  */
-public class SimTimer extends Thread {
+class SimTimer extends Thread {
     final static int TEMPO = 17; // Set to 17 for final demo
     private int hours;
     private int mins;
@@ -34,8 +34,8 @@ public class SimTimer extends Thread {
         }
     }
 
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
+    public void setCompleted() {
+        this.completed = true;
     }
 
     private void inc() {

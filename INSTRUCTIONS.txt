@@ -16,7 +16,7 @@ $ java -cp bin Simulator tests/stress01.txt
 $ java -cp bin Simulator tests/stress02.txt
 $ java -cp bin Simulator tests/stress03.txt
 
-* standard.txt is the test script provided in the assingment brief.
+* standard.txt is the test script provided in the assignment brief.
 
 * stress01 is "One person who works for a long time at each stop so
 the taxi goes into its idle state."

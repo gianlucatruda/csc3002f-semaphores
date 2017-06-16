@@ -1,17 +1,19 @@
-import java.sql.Time;
 import java.util.ArrayList;
 
 /**
  * Created by gianlucatruda on 14/06/2017.
  */
-public class Person extends Thread {
+class Person extends Thread {
 
-    private final int TEMPO = SimTimer.TEMPO;
-    private int ID;
-    private ArrayList<Voyage> voyages;
-    private Taxi taxi;
+    @SuppressWarnings("CanBeFinal")
+    private final int ID;
+    @SuppressWarnings("CanBeFinal")
+    private final ArrayList<Voyage> voyages;
+    @SuppressWarnings("CanBeFinal")
+    private final Taxi taxi;
     private int location;
-    private SimTimer time;
+    @SuppressWarnings("CanBeFinal")
+    private final SimTimer time;
 
     public Person(int id, Taxi t, SimTimer timer, ArrayList<Voyage> trips) {
         this.ID = id;
@@ -29,13 +31,13 @@ public class Person extends Thread {
             success = taxi.hail(location);
             System.out.println(time.getTime()+" branch "+location+": person "+ID+" hail");
             while(location != taxi.getLocation()) {
-                holdUp(0.5, false);
+                holdUp(0.5);
             }
             success = taxi.request(v.getBranch(), this);
             holdUp(1);
             System.out.println(time.getTime()+" branch "+location+": person "+ID+" request "+v.getBranch());
             while(taxi.getLocation() != v.getBranch()) {
-                holdUp(0.5, false);
+                holdUp(0.5);
             }
             taxi.unboard(this);
                 holdUp(v.getDuration());
@@ -62,12 +64,9 @@ public class Person extends Thread {
     }
 
     private void holdUp(double x) {
-        holdUp(x, true);
-    }
-
-    private void holdUp(double x, boolean b) {
         try {
-            sleep((int)(TEMPO*x));
+            int TEMPO = SimTimer.TEMPO;
+            sleep((int)(TEMPO *x));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -1,17 +1,15 @@
 
 import java.io.*;
-import java.time.Clock;
 import java.util.ArrayList;
 
 /**
  * Created by gianlucatruda on 14/06/2017.
  */
-public class Simulator {
+class Simulator {
 
     final static boolean DEBUG = false; // Turn to true to see more verbose output
 
     public static void main(String[] args) throws FileNotFoundException {
-        int TEMPO = SimTimer.TEMPO;
         SimTimer time = new SimTimer();
         String filename = "tests/standard.txt";
         int M; // The number of people
@@ -41,11 +39,10 @@ public class Simulator {
             people = new Person[M];
             for (int i = 0; i < M; i++) {
                 line = r.readLine().trim();
-                int pID = i;
                 //TODO reassess this
                 ArrayList<Voyage> trips = new ArrayList<>();
                 String sep = " \\(";
-                line = line.substring(String.valueOf(pID).length()+2);
+                line = line.substring(String.valueOf(i).length()+2);
                 String[] dataLines = line.split(sep);
                 for(String s:dataLines) {
                     String pair = s.trim();
@@ -54,7 +51,7 @@ public class Simulator {
                     //System.out.println(i+" b"+branch+"d"+duration);
                     trips.add(new Voyage(branch, duration));
                 }
-                people[i] = new Person(pID, taxi, time, trips);
+                people[i] = new Person(i, taxi, time, trips);
             }
 
             System.out.println("Successfully imported data!\n");
@@ -74,12 +71,9 @@ public class Simulator {
         } catch (IOException expIO) {
             System.out.println("IO Error. Please try again.");
             expIO.printStackTrace();
-        } catch (ArrayIndexOutOfBoundsException expArr) {
+        } catch (ArrayIndexOutOfBoundsException | NumberFormatException expArr) {
             System.out.println("File format incorrect. Please try again.");
             expArr.printStackTrace();
-        } catch (NumberFormatException expForm) {
-            System.out.println("File format incorrect. Please try again.");
-            expForm.printStackTrace();
         }
 
 
