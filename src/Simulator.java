@@ -10,11 +10,10 @@ public class Simulator {
 
     final static boolean DEBUG = false; // Turn to true to see more verbose output
 
-
     public static void main(String[] args) throws FileNotFoundException {
         int TEMPO = SimTimer.TEMPO;
         SimTimer time = new SimTimer();
-        String filename = "tests/stress03.txt";
+        String filename = "tests/standard.txt";
         int M; // The number of people
         int N; // The number of branches
         Person[] people;
