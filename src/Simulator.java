@@ -3,6 +3,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 /**
+ * This is the main driver for the taxi semaphore simulator.
  * Created by gianlucatruda on 14/06/2017.
  */
 class Simulator {
@@ -23,7 +24,6 @@ class Simulator {
         System.out.println("=== Welcome to the Taxi Semaphore Sim ===\n");
         System.out.println("Importing data from file '"+filename+"'...");
 
-        // TODO make this more robust
         // Data from file is read in and formatted
         try {
             final BufferedReader r = new BufferedReader(new FileReader(filename));
@@ -39,7 +39,6 @@ class Simulator {
             people = new Person[M];
             for (int i = 0; i < M; i++) {
                 line = r.readLine().trim();
-                //TODO reassess this
                 ArrayList<Voyage> trips = new ArrayList<>();
                 String sep = " \\(";
                 line = line.substring(String.valueOf(i).length()+2);

@@ -1,4 +1,5 @@
 /**
+ * This class is used for a simple, purpose-built timer used across the simulator.
  * Created by gianlucatruda on 14/06/2017.
  */
 class SimTimer extends Thread {

@@ -1,28 +1,21 @@
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
-import static java.lang.Thread.sleep;
-
 /**
+ * This class is for the taxi thread in the simulation and holds the semaphores.
  * Created by gianlucatruda on 14/06/2017.
  */
 public class Taxi extends Thread {
 
-    @SuppressWarnings("CanBeFinal")
     private final SimTimer time;
-    @SuppressWarnings("CanBeFinal")
     private final int M;
-    @SuppressWarnings("CanBeFinal")
     private final int N;
     private int location;
     private int completed;
     public enum State { IDLE, OUTBOUND, INBOUND }
 
-    @SuppressWarnings("CanBeFinal")
     private final ArrayDeque<Integer> loci;
-    @SuppressWarnings("CanBeFinal")
     private final ArrayList<Person> passengers;
-    @SuppressWarnings("CanBeFinal")
     private final Semaphore sem;
 
     public Taxi(int m, int n, SimTimer t) {
@@ -134,7 +127,4 @@ public class Taxi extends Thread {
         this.completed++;
     }
 
-    public int getCompleted() {
-        return completed;
-    }
 }

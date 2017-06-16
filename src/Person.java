@@ -1,18 +1,15 @@
 import java.util.ArrayList;
 
 /**
+ * This class is to represent people who would be passengers on the taxi.
  * Created by gianlucatruda on 14/06/2017.
  */
 class Person extends Thread {
 
-    @SuppressWarnings("CanBeFinal")
     private final int ID;
-    @SuppressWarnings("CanBeFinal")
     private final ArrayList<Voyage> voyages;
-    @SuppressWarnings("CanBeFinal")
     private final Taxi taxi;
     private int location;
-    @SuppressWarnings("CanBeFinal")
     private final SimTimer time;
 
     public Person(int id, Taxi t, SimTimer timer, ArrayList<Voyage> trips) {
@@ -44,14 +41,6 @@ class Person extends Thread {
         }
         taxi.notifyComplete();
 
-    }
-
-    public int getID() {
-        return ID;
-    }
-
-    public int getLocation() {
-        return location;
     }
 
     @Override
