@@ -8,7 +8,7 @@ import static java.lang.Thread.sleep;
  */
 public class Taxi extends Thread {
 
-    private final int TEMPO = Simulator.TEMPO;
+    private final int TEMPO = SimTimer.TEMPO;
     private SimTimer time;
     private int M;
     private int N;

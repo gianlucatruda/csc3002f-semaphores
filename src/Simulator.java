@@ -8,11 +8,11 @@ import java.util.ArrayList;
  */
 public class Simulator {
 
-    final static int TEMPO = 17; // Set to 17 for final demo
     final static boolean DEBUG = false; // Turn to true to see more verbose output
 
 
     public static void main(String[] args) throws FileNotFoundException {
+        int TEMPO = SimTimer.TEMPO;
         SimTimer time = new SimTimer();
         String filename = "defaultInstructions.txt";
         int M; // The number of people

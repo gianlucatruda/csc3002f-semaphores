@@ -6,7 +6,7 @@ import java.util.ArrayList;
  */
 public class Person extends Thread {
 
-    private final int TEMPO = Simulator.TEMPO;
+    private final int TEMPO = SimTimer.TEMPO;
     private int ID;
     private ArrayList<Voyage> voyages;
     private Taxi taxi;
